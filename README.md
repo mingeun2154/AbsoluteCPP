@@ -5,7 +5,7 @@
 ### contents
 
 * HW01
-    * [Chapter 8](#)
+    * [Chapter 8](https://github.com/mingeun2154/AbsoluteCPP/tree/main/HW01)
     * [Chapter 9](#)
 
 ### execute test
@@ -17,4 +17,6 @@ $ cd HW01
 $ make
 $ ./exe
 ```
+결과
 
+<img src="./images/Ch8.png" alt="ch8 실행결과">
