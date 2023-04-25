@@ -5,6 +5,7 @@
 
 #include "testfunctions.h"
 #include "ch9.h"
+#include <string>
 
 const char* G = "\033[32;1m";
 const char* R = "\033[31;1m";
@@ -23,11 +24,11 @@ void failed(T obj) {
 }
 
 void printTestInfo(int ch, int qNumber, char qChar) {
-	printf("[Chapter%d %d.%c]\n", ch, qNumber, qChar);
+	printf("[Chapter%d project%d.%c]\n", ch, qNumber, qChar);
 }
 
 void printTestInfo(int ch, int qNumber) {
-	printf("[Chapter%d %d]\n", ch, qNumber);
+	printf("[Chapter%d project%d]\n", ch, qNumber);
 }
 
 namespace Ch8 {
@@ -277,9 +278,55 @@ namespace Ch9 {
 
 	void testCh9Q1() {
 		printTestInfo(9, 1);
-		printf("%-64s .... ", "\"  the Answer to life, the Universe, and everthing IS 42.\"");
-		const char* str = "  the Answer to life, the Universe, and everthing IS 42.";
-		successed(fixString(str));
+		cout << "input >> ";
+		char input[101];
+		cin.getline(input, 101);
+		successed(project1(input));
+	}
+
+	void testCh9Q2() {
+		printTestInfo(9, 2);
+		cout << "input >> ";
+		string str;
+		getline(cin, str);
+		project2(str);
+	}
+
+	void testCh9Q3() {
+		printTestInfo(9, 3);
+		cout << "input >> ";
+		string str;
+		getline(cin, str);
+		project3(str);
+	}
+
+	void testCh9Q4() {
+		printTestInfo(9, 4);
+		cout << "input >> ";
+		string str;
+		getline(cin, str);
+		project4(str);
+	}
+
+	void testCh9Q5() {
+		printTestInfo(9, 5);
+		char input[101];
+		while (true) {
+			cout << "input (press 'Q' for exit) >> ";
+			cin.getline(input, 101);
+			if (input[0] == 'Q' && input[1] == '\0')
+				break;
+			project5(input);
+			cout << endl;
+		}
+	}
+
+	void testCh9Q12() {
+		printTestInfo(9, 12);
+		string str;
+		cout << "input >> ";
+		getline(cin, str);
+		project12(str);
 	}
 
 };// Ch9

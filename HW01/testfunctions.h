@@ -54,10 +54,7 @@ namespace Ch8 {
 
 namespace Ch9 {
 	void testCh9Q1();
-	void testCh9Q2a();
-	void testCh9Q2b();
-	void testCh9Q2c();
-	void testCh9Q2d();
+	void testCh9Q2();
 	void testCh9Q3();
 	void testCh9Q4();
 	void testCh9Q5();

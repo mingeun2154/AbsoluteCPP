@@ -4,12 +4,14 @@
 
 #include "testfunctions.h"
 using namespace Ch8;
+using namespace Ch9;
 
 void greeting();
 
 int main(void) {
 	greeting();
 	// Chapter8
+	/*
 	testCh8Q1a();
 	testCh8Q1b();
 	testCh8Q2();
@@ -24,7 +26,13 @@ int main(void) {
 	testCh8Q8();
 	testCh8Q9();
 	// Chapter9
-	// testCh9Q1();
+	testCh9Q1();
+	testch9Q2();
+	testCh9Q3();
+	testCh9Q4();
+	testCh9Q5();
+	*/
+	testCh9Q12();
 	
 	cout << endl;
 	return 0;
