@@ -5,6 +5,10 @@
 
 #include "ch9.h"
 #include "testfunctions.h"
+#include <cctype>
+#include <cstring>
+#include <fstream>
+#include <string>
 
 namespace Ch9 {
 
@@ -31,6 +35,28 @@ namespace Ch9 {
 			i++;
 		}
 		return result;
+	}
+
+	// 단어에 사용된 {문자: 개수} 반환
+	map<char, int> countChar(const string word) {
+		map<char, int> result;
+		for(const auto& c: word)
+			if (isalpha(c))
+				result[tolower(c)]++;
+		return result;
+	}
+
+	// m1이 m2를 포함하면 true, 아니면 false
+	bool enclose(map<char, int> m1, map<char, int> m2) {
+		if (m1.size() < m2.size())
+			return false;
+		for (const auto& iter: m2) {
+			if (m1.find(iter.first)==m1.end())
+				return false;
+			else if (m1[iter.first] < iter.second)
+				return false;
+		}
+		return true;
 	}
 
 	// 구두점을 제거한 단어 반환
@@ -157,7 +183,7 @@ namespace Ch9 {
 			// 각 단어의 첫 문자를 만난 경우
 			if ((i==0 && str[i] !=' ')||(i>0 && str[i]!=' ' && str[i-1]==' '))
 				// 해당 단어의 길이가 4
-				if (isalpha(str[i+3]) && str[i+4]==' ') {
+				if (isalpha(str[i+3]) && !isalpha(str[i+4])) {
 					// four-letter word가 소문자로 시작
 					if ('a' <= str[i] && str[i]<='z' )
 						str.replace(i, 4, "love");
@@ -180,7 +206,7 @@ namespace Ch9 {
 		string output = "";
 		for (auto iter=words.begin(); iter!=words.end(); ++iter) {
 			if (removePunctuation(*iter).compare("he") == 0) {
-				output += "he";
+				output += "he or she";
 				// 구두점 조사
 				if ((*iter).length() > 2) {
 					for (int i=2; i<(*iter).length(); i++)
@@ -189,7 +215,7 @@ namespace Ch9 {
 				output.push_back(' ');
 			}
 			else if (removePunctuation(*iter).compare("He") == 0) {
-				output += "He";
+				output += "He or she";
 				// 구두점 조사
 				if ((*iter).length() > 2) {
 					for (int i=2; i<(*iter).length(); i++)
@@ -239,8 +265,157 @@ namespace Ch9 {
 		cout << G << output << DEFAULT;
 	}
 
+	/* 
+	 * word의 첫 번째 문자만 소문자이고 나머지는 모두 대문자이면 true, 
+	 * 아니면 false 반환
+	 */
+	bool p7Check(const string word) {
+		// 첫 문자 대문자 또는 길이가 1인 단어
+		if (word[0]!=tolower(word[0]) || word.length()==1)
+			return false;
+		else {
+			// 나머지 모든 문자가 대문자인 경우에만 true 반환
+			int i = 1;
+			while (i<word.length()){
+				if (word[i]==tolower(word[i]))
+					return false;
+				i++;
+			}
+			return true;
+		}
+	}
+
 	/*
-	 * converts a string into integer
+	 * 단어의 첫 글자만 소문자이고 나머지는 모두 대문자인 단어를 선택적으로 출력한다.
+	 * */
+	void project7(const string str) {
+		// Detect word
+		int i = 0;
+		vector<string> mistakes;
+		vector<string> words = wordbreak(str);
+		for (const auto& word: words)
+			if (p7Check(word)) 
+				mistakes.push_back(word);
+		for (const auto& word: mistakes)
+			cout << G << word << " ";
+		cout << DEFAULT;
+	}
+
+	bool isvowel(char c) {
+		c = tolower(c);
+		if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+			return true;
+		else
+			return false;
+	}
+
+	/*
+	 * Converts a sentence into the pig latin.
+	 * */
+	void project8(const string word) {
+		string result;
+		// b.The first charcater was a vowel
+		if (isvowel(word[0]))
+			result = word + "ay";
+		// a.The first character was a consonant.
+		else {
+			for (int i=1; i<word.length(); i++)
+				result.push_back(tolower(word[i]));
+			result.push_back(word[0]);
+			result += "ay";
+		}
+		cout << G << result << DEFAULT << endl;
+	}
+
+	// 두 문자열의 내용이 같으면 true 반환.
+	// 대소문자, 구두점, 공백 무시
+	bool isSameCstring(const char* s1, const char* s2) {
+		int i=0, j=0;
+		while (i<strlen(s1) && j<strlen(s2)) {
+			if (!isalpha(s1[i]))
+				i++;
+			if (!isalpha(s2[j]))
+				j++;
+			if (isalpha(s1[i])&&isalpha(s2[j])) {
+				if (tolower(s1[i])!=tolower(s2[j]))
+					return false;
+				i++;
+				j++;
+			}
+		}
+		return true;
+	}
+
+	void project9(const char* s1, const char* s2) {
+		if (isSameCstring(s1, s2))	
+			cout << G << "true" << DEFAULT;
+		else
+			cout << G << "false" << DEFAULT;
+	}
+
+	Trivia::Trivia(string q, string a, int w) {
+		this->question = q;
+		this->answer = a;
+		this->worth = w;
+	}
+
+	Trivia::Trivia(Trivia& t) {
+		this->question = t.question;
+		this->answer = t.answer;
+		this->worth = t.worth;
+	}
+
+	void project10() {
+		// Prepare questions
+		vector<Trivia*> quizes;
+		quizes.push_back(new Trivia("What is the capital of Korea?", "Seoul", 10));
+		quizes.push_back(new Trivia("What is the capital of Australia?", "Canberra", 10));
+		quizes.push_back(new Trivia("What is the capital of Japan?", "Tokyo", 10));
+		quizes.push_back(new Trivia("What is the capital of China?", "Beijing", 10));
+		quizes.push_back(new Trivia("What is the capital of Egypt?", "Cairo", 10));
+		int i=1;
+		for (const auto& t: quizes) {
+			printf("Question%d) ", i++);
+			cout << t->getQuestion() << endl;
+			string answer; // 사용자가 입력한 답
+			string actual = t->getAnswer(); // 실제 정답
+			cout << "Answer) ";
+			cin >> answer;
+			// 대소문자 무시(모두 소문자로 변환)
+			for (auto& c: answer) 
+				if (isalpha(c))
+					c = tolower(c);
+			for (auto& c: actual) 
+				if (isalpha(c))
+					c = tolower(c);
+			if (answer == actual)
+				cout << G << "Correct" << endl << DEFAULT;
+			else
+				cout << G << "Wrong. The correct answer is " << t->getAnswer() << endl << DEFAULT;
+		}
+
+		// release memories
+		for (auto& ptr: quizes) {
+			delete ptr;
+			ptr = nullptr;
+		}
+	}
+
+	/*
+	 * Determines if two strings are anagrams.
+	 * Disregard of case and punctuation or spaces.
+	 * */
+	void project11(const string s1, const string s2) {
+		map<char, int> s1Chars = countChar(s1);
+		map<char, int> s2Chars = countChar(s2);
+		if (s1Chars == s2Chars)
+			cout << G << "true" << DEFAULT;
+		else
+			cout << G << "false" << DEFAULT;
+	}
+
+	/*
+	 * Converts a string into integer.
 	 * 1234
 	 * -1234
 	 * */
@@ -259,6 +434,35 @@ namespace Ch9 {
 		}
 		result = sign*result;
 		cout << G << result << DEFAULT;
+		cout << endl;
+	}
+
+	/*
+	 * 사용자로부터 입력받은 단어의 알파벳으로 만들 수 있는
+	 * words.txt의 모든 단어를 출력
+	 * N = 87314
+	 * */
+	void project13(const string str) {
+		// 파일에서 모든 단어를 읽어 벡터 형태로 저장
+		ifstream inputFile("words.txt");
+		vector<string> words;
+		if (inputFile.is_open()) {
+			string line;
+			while (getline(inputFile, line)) {
+				words.push_back(line);
+			}
+			inputFile.close();
+		}
+		else
+			cout << R << "[ERROR] Unable to open file \"words.txt\"" << endl;
+		// 사용자가 입력한 단어 분석
+		map<char, int> inputInfo = countChar(str);
+		// 파일에서 읽은 모든 단어 분석	
+		map<string, map<char, int>> wordsInfo;
+		for (const auto& iter : words)
+			if (enclose(inputInfo, countChar(iter)))
+				cout << G << iter << endl;
+		cout << DEFAULT;
 	}
 
 };// Ch9

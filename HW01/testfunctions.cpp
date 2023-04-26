@@ -298,6 +298,7 @@ namespace Ch9 {
 		string str;
 		getline(cin, str);
 		project3(str);
+		cout << endl;
 	}
 
 	void testCh9Q4() {
@@ -306,6 +307,7 @@ namespace Ch9 {
 		string str;
 		getline(cin, str);
 		project4(str);
+		cout << endl;
 	}
 
 	void testCh9Q5() {
@@ -321,12 +323,85 @@ namespace Ch9 {
 		}
 	}
 
+	void testCh9Q6() {
+		printTestInfo(9, 6);
+	}
+
+	void testCh9Q7() {
+		printTestInfo(9, 7);
+		string input;
+		while (true) {
+			cout << "input (empty string to quit) >> ";
+			getline(cin, input);
+			if (input == "")
+				break;
+			project7(input);
+			cout << endl;
+		}
+	}
+
+	void testCh9Q8() {
+		printTestInfo(9, 8);
+		string input;
+		cout << "input >> ";
+		cin >> input;
+		project8(input);
+	}
+
+	void testCh9Q9() {
+		printTestInfo(9, 9);
+		// true
+		printf("%-24s  %-24s .... ", "\"Hello, world!\"", "\"hello, world!\"");
+		const char* t11 = "Hello world!";
+		const char* t12 = "hello, world!";
+		project9(t11, t12);
+		cout << endl;
+		// true
+		printf("%-24s  %-24s .... ", "\"Hello !\"", "\"hello\"");
+		const char* t31 = "Hello !";
+		const char* t32 = "hello";
+		project9(t31, t32);
+		cout << endl;
+		// false
+		printf("%-24s  %-24s .... ", "\"abcd\"", "\"bcda\"");
+		const char* t21 = "abcd";
+		const char* t22 = "bcda";
+		project9(t21, t22);
+		cout << endl;
+	}
+
+	void testCh9Q10() {
+		printTestInfo(9, 10);
+		project10();
+	}
+
+	void testCh9Q11() {
+		printTestInfo(9, 11);
+		printf("%-50s .... ", "\"Eleven plus two.\" \"Twelve plus one!\"");
+		string str1 = "Eleven plus two.";
+		string str2 = "Twelve plus one!";
+		project11(str1, str2);
+		printf("\n%-50s .... ", "\"one plus two.\" \"Twelve plus one!\"");
+		str1 = "one plus two.";
+		str2 = "Twelve plus one!";
+		project11(str1, str2);
+		cout << endl;
+	}
+
 	void testCh9Q12() {
 		printTestInfo(9, 12);
 		string str;
 		cout << "input >> ";
 		getline(cin, str);
 		project12(str);
+	}
+
+	void testCh9Q13() {
+		printTestInfo(9, 13);
+		string str;
+		cout << "input >> ";
+		getline(cin, str);
+		project13(str);
 	}
 
 };// Ch9

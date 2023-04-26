@@ -58,24 +58,14 @@ namespace Ch9 {
 	void testCh9Q3();
 	void testCh9Q4();
 	void testCh9Q5();
-	void testCh9Q6a();
-	void testCh9Q6b();
-	void testCh9Q6c();
-	void testCh9Q6d();
-	void testCh9Q6e();
-	void testCh9Q6f();
-	void testCh9Q6g();
-	void testCh9Q6h();
-	void testCh9Q6i();
-	void testCh9Q6j();
-	void testCh9Q8a();
-	void testCh9Q8b();
+	void testCh9Q6();
+	void testCh9Q7();
+	void testCh9Q8();
 	void testCh9Q9();
 	void testCh9Q10();
 	void testCh9Q11();
 	void testCh9Q12();
 	void testCh9Q13();
-	void testCh9Q14();
 }
 
 #endif// TEST_FUNCTIONS_H_
