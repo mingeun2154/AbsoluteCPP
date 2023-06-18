@@ -8,22 +8,24 @@
 
 using std::string;
 
-namespace hw02
-{
+namespace hw02 {
 
-    class SalariedEmployee : public Employee
-    {
-    public:
-        SalariedEmployee( );
-        SalariedEmployee (const string&  theName, const string&  theSsn,
-                                  double theWeeklySalary);
-        double getSalary( ) const;
-        void setSalary(double newSalary);
-        void printCheck( );
-    private:
-        double salary;//weekly
-    };
+    namespace ch14 {
 
-}//SavitchEmployees
+        class SalariedEmployee : public Employee
+        {
+        public:
+            SalariedEmployee( );
+            SalariedEmployee (const string&  theName, const string&  theSsn,
+                                      double theWeeklySalary);
+            double getSalary( ) const;
+            void setSalary(double newSalary);
+            void printCheck( );
+        protected:
+            double salary;
+        };
+
+    } // ch14
+} // hw02
 
 #endif //SALARIEDEMPLOYEE_H
