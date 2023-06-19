@@ -6,6 +6,7 @@
 
 #include <random>
 
+#include "ch15P6Classes.h"
 #include "figure.h"
 #include "ch15P4Classes.h"
 #include "ch15P5Classes.h"
@@ -191,13 +192,18 @@ int hw02::ch15::p5::ComputerPlayer::getGuess() const {
 }
 
 
-
 int hw02::ch15::p5::HumanPlayer::getGuess() const {
     int input;
     cin >> input;
     return input;
 }
 
+
+int hw02::ch15::p6::HumanPlayer::getGuess() const {
+    int input;
+    cin >> input;
+    return input;
+}
 
 int hw02::ch15::p5::getRandomNumber(int limit) {
     random_device rd;
@@ -210,20 +216,20 @@ int hw02::ch15::p5::getRandomNumber(int limit) {
 
 bool hw02::ch15::p5::checkForWin (int guess, int answer) {
     if (answer == guess) {
-        cout << "You're right! You win!" << endl;
+        cout << " ➥ You're right! You win ";
         return true;
     }
     else if (answer < guess)
-        cout << "Your guess is too high." << endl;
+        cout << " ➥ Your guess is too high." << endl;
     else
-        cout << "Your guess is too low." << endl;
+        cout << " ➥ Your guess is too low." << endl;
     return false;
 }
 
 
 void hw02::ch15::p5::play (Player &player1, Player &player2) {
     int answer = 0, guess = 0;
-    answer = rand ( ) % 100;
+    answer = getRandomNumber(100);
     bool win = false;
     using namespace ANSI_CONTROL;
     while (!win) {
@@ -241,3 +247,58 @@ void hw02::ch15::p5::play (Player &player1, Player &player2) {
         win = checkForWin (guess, answer);
     }
 }
+
+
+int hw02::ch15::p6::ComputerPlayer::getGuess() const {
+    return (lowerBound+upperBound)/2;
+}
+
+
+void hw02::ch15::p6::play (hw02::ch15::p6::Player &player1, hw02::ch15::p6::Player &player2) {
+    int answer = 0, guess = 0;
+    answer = p5::getRandomNumber(100);
+    bool win = false;
+    using namespace ANSI_CONTROL;
+    while (!win) {
+        cout << CYAN
+            << "Player 1's turn to guess ➠ ";
+        guess = player1.getGuess ( );
+        // revise lower bound.
+        if (answer > guess) {
+            player1.setLowerBound(guess);
+            player2.setLowerBound(guess);
+        }
+        // reivse upper bound.
+        else if (answer < guess) {
+            player1.setUpperBound(guess);
+            player2.setUpperBound(guess);
+        }
+        cout << DEFAULT;
+        win = hw02::ch15::p5::checkForWin (guess, answer);
+        if (win) {
+            cout << CYAN << "Player1!\n" << DEFAULT;
+            return;
+        }
+
+        guess = player2.getGuess ( );
+        // revise lower bound.
+        if (answer > guess) {
+            player1.setLowerBound(guess);
+            player2.setLowerBound(guess);
+        }
+        // reivse upper bound.
+        else if (answer < guess) {
+            player1.setUpperBound(guess);
+            player2.setUpperBound(guess);
+        }
+        cout << YELLOW
+            << "Player 2's turn to guess ➠ "
+            << guess << DEFAULT << endl;
+        win = hw02::ch15::p5::checkForWin (guess, answer);
+        if (win) {
+            cout << YELLOW << "Player2!\n" << DEFAULT;
+            return;
+        }
+    }
+}
+

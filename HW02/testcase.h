@@ -22,6 +22,8 @@
 #include "figure.h"
 #include "ch15P4Classes.h"
 #include "ch15P5Classes.h"
+#include "ch15P6Classes.h"
+#include "ch15P7Classes.h"
 
 using namespace std;
 
@@ -499,6 +501,48 @@ namespace  hw02 {
             p5::Player* computer = new p5::ComputerPlayer();
             p5::play(*human, *computer);
             
+        }
+
+
+        void project6() {
+            cout << ANSI_CONTROL::GREEN
+                << "CAPTER15 project06 "
+                << ANSI_CONTROL::DEFAULT << "guessing game"
+                << ANSI_CONTROL::GREEN
+                << " revising ver. " << ANSI_CONTROL::DEFAULT
+                << endl;
+
+            p6::Player* human = new p6::HumanPlayer();
+            p6::Player* computer = new p6::ComputerPlayer();
+            p6::play(*human, *computer);
+            
+        }
+
+
+        void project7() {
+            cout << ANSI_CONTROL::GREEN
+                << "CAPTER15 project07 "
+                << ANSI_CONTROL::DEFAULT << "Dice"
+                << endl;
+
+            Dice dice1 = Dice(3);
+            Dice dice2 = Dice(6);
+
+            cout << "Verifying rollTwoDice function";
+            for (int i=0; i<10; i++)
+                if (rollTwoDice(dice1, dice2) > 9)
+                    util::failed();
+            util::successed();
+
+            Dice* dice3 = new LoadedDice(99);
+            Dice* dice4 = new LoadedDice(10);
+            cout << "Polymorphism check \n";
+            cout << "\t└─ 1 Dice and 1 LoadedDice object ";
+            rollTwoDice(dice1, *dice4);
+            cout << endl;
+            cout << "\t└─ 2 LoadedDice objects ";
+            rollTwoDice(*dice3, *dice4);
+            cout << endl;
         }
     } // ch15
 
