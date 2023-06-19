@@ -3,9 +3,13 @@
  * @author 2018203023 박민근 
  * @date 2023-06-18
  */
-#include <unistd.h>
+
+#include <random>
 
 #include "figure.h"
+#include "ch15P4Classes.h"
+#include "ch15P5Classes.h"
+
 
 void hw02::ch15::p2::Rectangle::draw() {
     cout << "Rectangle( width = " << _width
@@ -96,4 +100,144 @@ void hw02::ch15::p2::Triangle::draw() {
     }
 
     cout << endl;
+}
+
+
+int hw02::ch15::Creature::randomNumber(int limit) const {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<> dis(0.0, static_cast<double>(limit+1));
+    return static_cast<int>(dis(gen));
+}
+
+
+
+/**
+ * @brief All creatures inflict damage.
+ * which is a random number up to their
+ * strength.
+ *
+ * @return Damage inflicted by the class.
+ */
+int hw02::ch15::Creature::getDamage() const {
+    return randomNumber(strength);
+}
+
+
+int hw02::ch15::Human::getDamage() const {
+    return Creature::getDamage();
+}
+
+
+/**
+ * @brief 일정한 확률로 true를 반환한다.
+ * @param p 확률(단위: %, included)
+ */
+bool hw02::ch15::Creature::triggeredByProbability(double p) const {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<> dis(0.0, 1.0);
+
+    if (dis(gen) <= p / 100)
+        return true;
+    else
+        return false;
+}
+
+
+/**
+ * @brief Elves inflict double magical
+ * damage with a 10% chance.
+ *
+ * @return Total damage Elves can inflict.
+ */
+int hw02::ch15::Elf::getDamage() const {
+    int damage = Creature::getDamage();
+    if (Creature::triggeredByProbability(10.0))
+        return 2*damage;
+    else
+        return damage;
+}
+
+
+int hw02::ch15::Demon::getDamage() const {
+    int damage = Creature::getDamage();
+    if (Creature::triggeredByProbability(5.0))
+        return damage + 5;
+    else
+        return damage;
+}
+
+
+
+int hw02::ch15::CyberDemon::getDamage() const {
+    return Demon::getDamage();
+}
+
+
+
+/**
+ * @brief Balrog들은 두 번 공격한다.
+ *
+ * @return Balrog이 적에게 입히는 데미지.
+ */
+int hw02::ch15::Balrog::getDamage() const {
+    return Demon::getDamage() + Demon::getDamage();
+}
+
+
+int hw02::ch15::p5::ComputerPlayer::getGuess() const {
+    return getRandomNumber(100);
+}
+
+
+
+int hw02::ch15::p5::HumanPlayer::getGuess() const {
+    int input;
+    cin >> input;
+    return input;
+}
+
+
+int hw02::ch15::p5::getRandomNumber(int limit) {
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_real_distribution<> dis(0.0, static_cast<double>(limit+1));
+    return static_cast<int>(dis(gen));
+}
+
+
+
+bool hw02::ch15::p5::checkForWin (int guess, int answer) {
+    if (answer == guess) {
+        cout << "You're right! You win!" << endl;
+        return true;
+    }
+    else if (answer < guess)
+        cout << "Your guess is too high." << endl;
+    else
+        cout << "Your guess is too low." << endl;
+    return false;
+}
+
+
+void hw02::ch15::p5::play (Player &player1, Player &player2) {
+    int answer = 0, guess = 0;
+    answer = rand ( ) % 100;
+    bool win = false;
+    using namespace ANSI_CONTROL;
+    while (!win) {
+        cout << CYAN
+            << "Player 1's turn to guess ➠ ";
+        guess = player1.getGuess ( );
+        cout << DEFAULT;
+        win = checkForWin (guess, answer);
+        if (win) return;
+
+        guess = player2.getGuess ( );
+        cout << YELLOW
+            << "Player 2's turn to guess ➠ "
+            << guess << DEFAULT << endl;
+        win = checkForWin (guess, answer);
+    }
 }

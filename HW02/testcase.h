@@ -20,6 +20,8 @@
 
 // ch15
 #include "figure.h"
+#include "ch15P4Classes.h"
+#include "ch15P5Classes.h"
 
 using namespace std;
 
@@ -378,6 +380,126 @@ namespace  hw02 {
             cout << endl;
         }
         
+
+        void project4() {
+            cout << ANSI_CONTROL::GREEN
+                << "CAPTER15 project04 "
+                << ANSI_CONTROL::DEFAULT
+                << "Fantasy role-playing game "
+                << ANSI_CONTROL::CYAN << "virtual getDamage() ver.\n"
+                << ANSI_CONTROL::DEFAULT;
+
+            int str = 100;
+            int hp = 500;
+            int vsize = 100;
+
+#define DEBUG
+            
+            Human human(str, hp);           vector<int> hDmg = vector<int>();
+            Elf elf(str, hp);               vector<int> eDmg = vector<int>();
+            CyberDemon cyberDemon(str, hp); vector<int> cDmg = vector<int>();
+            Balrog balrog(str, hp);         vector<int> bDmg = vector<int>();
+
+            bool tf = true;
+            // Validation for Human class.
+            // 모든 데미지는 str보다 작거나 같아야 한다.
+            cout << "[Human] Vadlidating damage ";
+            for (int i=0; i<vsize; i++) {
+                int dmg = human.getDamage();
+                if (dmg > str)
+                    tf = false;
+                if (dmg > str/2)
+                    hDmg.push_back(dmg);
+            }
+            if (tf)
+                util::successed();
+            else
+                util::failed();
+
+            tf = false;
+            // Valication for Elf
+            // str보다 큰 데미지가 발생해야 한다.
+            cout << "[Elf] Vadlidating damage ";
+            for (int i=0; i<vsize; i++) {
+                int dmg = elf.getDamage();
+                if (dmg > str) {
+                    tf = true;
+                    eDmg.push_back(dmg);
+                }
+            }
+            if (tf)
+                util::successed();
+            else
+                util::failed();
+
+            // Valication for Balrog
+            // str의 두 배 이상의 데미지가 발생해야 한다.
+            tf = false;
+            cout << "[Balrog] Vadlidating damage ";
+            for (int i=0; i<vsize; i++) {
+                int dmg = balrog.getDamage();
+                if (dmg > 50) {
+                    tf = true;
+                    bDmg.push_back(dmg);
+                }
+            }
+            if (tf)
+                util::successed();
+            else
+                util::failed();
+
+            // Valication for CyberDemon
+            // 5% 확률로 데미지 50 추가
+            tf = false;
+            cout << "[CyberDemon] Vadlidating damage ";
+            for (int i=0; i<vsize; i++) {
+                int dmg = cyberDemon.getDamage();
+                if (dmg > 50) {
+                    tf = true;
+                    cDmg.push_back(dmg);
+                }
+            }
+            if (tf)
+                util::successed();
+            else
+                util::failed();
+            cout << endl;
+
+#ifdef DEBUG
+            using namespace ANSI_CONTROL;
+            cout << "Acutal results of getDamage()\n";
+            cout << CYAN <<  "Human(strength=100):\n" << DEFAULT;
+            for (const auto& d : hDmg)
+                cout << d << " ";
+            cout << endl;
+            cout << CYAN << "Elf(strength=100, 10% 확률로 데미지 2배):\n" << DEFAULT;
+            for (const auto& d : eDmg)
+                cout << d << " ";
+            cout << endl;
+            cout << CYAN << "Balrog(strength=100, 두 번 공격):\n" << DEFAULT;
+            for (const auto& d : bDmg)
+                cout << d << " ";
+            cout << endl;
+            cout << CYAN << "CyberDemon(strength=100, 5% 확률로 데미지 50 추가):\n" << DEFAULT;
+            for (const auto& d : cDmg)
+                cout << d << " ";
+            cout << endl;
+#endif
+
+            cout << endl;
+        }
+
+
+        void project5() {
+            cout << ANSI_CONTROL::GREEN
+                << "CAPTER15 project05 "
+                << ANSI_CONTROL::DEFAULT << "guessing game" << endl;
+
+            p5::Player* human = new p5::HumanPlayer();
+            p5::Player* computer = new p5::ComputerPlayer();
+            p5::play(*human, *computer);
+            
+        }
     } // ch15
 
 } // hw02
