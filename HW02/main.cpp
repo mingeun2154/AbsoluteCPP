@@ -5,14 +5,9 @@
  * @date 2023-06-14
  */
 
-#include <iostream>
-
-#include "salariedemployee.h"
 #include "testcase.h"
 
 using namespace hw02;
-using namespace std;
-
 
 int main() {
 
@@ -26,7 +21,13 @@ int main() {
     // ch14::project9();
 
     // chapter 15
-    ch15::project1();
+    // ch15::project1();
+    ch15::project2();
+    // ch15::project3();
+    // ch15::project4();
+    // ch15::project5();
+    // ch15::project6();
+    // ch15::project7();
     
     return 0;
 }

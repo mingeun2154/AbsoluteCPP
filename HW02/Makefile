@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS = -std=c++11
-OBJS = main.o employee.o salariedemployee.o administrator.o ch14Classes.o
+CFLAGS = -std=c++11 -g
+OBJS = main.o employee.o salariedemployee.o administrator.o ch14Classes.o ch15Classes.o
 EXE = hw02
 
 %.o: %.cpp

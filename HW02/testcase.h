@@ -19,7 +19,7 @@
 #include "ch14P9Classes.h"
 
 // ch15
-#include "ch15P1Classes.h"
+#include "figure.h"
 
 using namespace std;
 
@@ -326,6 +326,7 @@ namespace  hw02 {
     namespace ch15 {
 
         void project1() {
+            using namespace p1;
             using namespace ANSI_CONTROL;
             cout << GREEN
                 << "CAPTER15 project01\n"
@@ -359,6 +360,23 @@ namespace  hw02 {
             cout << endl;
         }
 
+
+        void project2() {
+            using namespace ANSI_CONTROL;
+            cout << GREEN
+                << "CAPTER15 project02 "
+                << DEFAULT
+                << "draw()\n";
+
+            p2::Rectangle(5, 2).draw();
+            p2::Rectangle(3, 3).draw();
+
+            p2::Triangle().draw();
+            p2::Triangle(3, 4).draw();
+            // p2::Triangle(9, 3).draw();
+
+            cout << endl;
+        }
         
     } // ch15
 
